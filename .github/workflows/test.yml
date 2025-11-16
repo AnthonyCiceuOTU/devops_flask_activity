@@ -1,9 +1,11 @@
-name: Python Application Test
+name: DevOps Flask activity - Tests
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,8 +29,11 @@ jobs:
         run: |
           pytest --cov=app --cov-report=xml test_app.py
 
+      # Only try to upload to Codecov if a token is actually configured.
+      # This avoids the job failing when you don't have CODECOV_TOKEN set.
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        if: ${{ secrets.CODECOV_TOKEN != '' }}
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          fail_ci_if_error: false
