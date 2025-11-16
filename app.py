@@ -43,6 +43,7 @@ def delete_item(item_id: int):
     if item_id in items:
         deleted = items.pop(item_id)
         return jsonify({"id": item_id, "deleted": deleted}), 200
+
     return jsonify({"error": "Item not found"}), 404
 
 
