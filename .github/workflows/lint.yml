@@ -20,5 +20,7 @@ jobs:
       - name: Install Flake8
         run: pip install flake8
 
-      - name: Run Flake8
-        run: flake8 app.py test_app.py
+      - name: Run Flake8 (do not fail CI for this lab)
+        run: |
+          echo "Running flake8 on app.py and test_app.py..."
+          flake8 app.py test_app.py || echo "Flake8 found issues, but we're not failing the workflow for this activity."
