@@ -62,7 +62,7 @@ Run locally with:
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-pytest --cov=app --cov-report=term-missing
+pytest -q
 ```
 
 ## GitHub Actions workflows
@@ -85,37 +85,9 @@ Located under `.github/workflows/`:
    - Triggers on pushes and pull requests targeting `main`.
    - Uses GitHub's CodeQL actions to scan the Python code for common security issues.
 
-4. **`deploy.yml` – Optional AWS Elastic Beanstalk Deploy**  
-   - **Optional** workflow demonstrating one way to deploy the app.
-   - Triggers on pushes to `main`.
-   - Installs the Elastic Beanstalk CLI (`awsebcli`).
-   - Uses `aws-actions/configure-aws-credentials` with secrets:
-     `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`.
-   - Runs `eb deploy` (assumes you have an existing EB app/env and
-     `.elasticbeanstalk/config.yml` in the repo).
-
-   > You will need to set up AWS and EB separately and store credentials as GitHub
-   > Actions secrets for this to work.
-
 ## Dependabot
 
 `.github/dependabot.yml` is configured to:
 
 - Watch the `pip` ecosystem in the repository root (`/`).
 - Create weekly PRs for outdated Python dependencies.
-
-## What you would submit for the activity
-
-- A ZIP of this project directory.
-- Screenshot(s) of successful GitHub Actions runs for:
-  - Test workflow (`test.yml`)
-  - Lint workflow (`lint.yml`)
-  - CodeQL workflow (`codeql-analysis.yml`)
-- A short description of:
-  - Endpoints implemented (see above).
-  - Tests written (see above).
-  - Any issues:
-    - You may need to set `CODECOV_TOKEN` for private repos.
-    - CodeQL may warn about `@v1` versions; update to the latest major if GitHub suggests.
-    - `deploy.yml` requires AWS/EB configuration and credentials; until you set those,
-      that workflow will likely fail or should be disabled.
